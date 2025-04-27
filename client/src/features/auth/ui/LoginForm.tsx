@@ -1,8 +1,8 @@
+import { Button } from "@shared/ui/Button";
+import { Input } from "@shared/ui/Input";
 import { useForm } from "react-hook-form";
-import { Input } from "@/shared/ui/Input";
-import { Button } from "@/shared/ui/Button";
-import { useLogin } from "../model/useLogin";
-import { LoginFormValues } from "../model/types";
+import { LoginFormValues } from "./model/types";
+import { useLogin } from "./model/useLogin";
 
 export const LoginForm = () => {
   const { register, handleSubmit } = useForm<LoginFormValues>();
