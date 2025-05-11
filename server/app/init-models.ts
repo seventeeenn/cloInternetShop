@@ -1,5 +1,5 @@
 import { Review } from "../entities/review/model/Reviews";
-import { User } from "../entities/user/models/User";
+import { User } from "../entities/user/model/User";
 
 export const initModels = () => {
   // Здесь настраиваем связи между моделями, если нужно

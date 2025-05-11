@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../../shared/db/sequelize';
-import { User } from '../../user/models/User';
+import { User } from '../../user/model/User';
 
 export interface ReviewData {
   id: number;

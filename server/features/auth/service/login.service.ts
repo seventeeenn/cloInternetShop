@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User, UserAttributes } from '../../../entities/user/models/User';
+import { User, UserAttributes } from '../../../entities/user/model/User';
 
 // import { User } from '../../models/User';  
 

@@ -18,7 +18,7 @@ app.use(express.json());
 // Подключаем маршруты авторизации под префиксом /api
 app.use('/api', authRouter);
 app.use('/api/reviews', reviewRoutes);
-app.use('api/registation', registrationRoutes)
+app.use('/api/registation', registrationRoutes)
 
 // Middleware - глобальная обработка ошибок 
 app.use(errorHandler);
