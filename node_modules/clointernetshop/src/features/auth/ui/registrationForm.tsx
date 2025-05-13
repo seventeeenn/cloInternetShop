@@ -3,6 +3,8 @@ import { Input } from '@shared/ui/Input';
 import { Button } from '@shared/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@shared/store/userSlice';
 
 interface SignupFormValues {
   username: string;
@@ -15,11 +17,11 @@ export const RegistrationForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<SignupFormValues>();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: SignupFormValues) => {
@@ -48,6 +50,7 @@ export const RegistrationForm = () => {
       const resData = await res.json();
       alert(resData.message);
       navigate('/');
+      dispatch(setUser({ name: resData.name }));
     } catch (err) {
       console.error('Registration failed', err);
       alert('Something went wrong!');

@@ -1,5 +1,13 @@
-import { LoginPage } from '@pages/login/ui/LoginPage';
+import { Header } from '@widgets/Header/Header';
+import { Outlet } from 'react-router-dom';
 
 export const App = () => {
-  return <LoginPage />;
+  return (
+    <div>
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+    </div>
+  );
 };
