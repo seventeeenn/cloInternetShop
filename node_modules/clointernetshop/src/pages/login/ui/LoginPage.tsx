@@ -1,4 +1,5 @@
 import { LoginForm } from "@features/auth/ui/LoginForm";
+import "./login.css";
 
 export const LoginPage = () => {
   return (

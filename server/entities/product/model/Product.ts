@@ -11,7 +11,7 @@ export interface ProductData {
     image: string;
 }
 
-export const Review = sequelize.define<Model<ProductData>>('products', {
+export const Product = sequelize.define<Model<ProductData>>('products', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,

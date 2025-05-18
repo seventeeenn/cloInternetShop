@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { addProduct } from '@shared/store/productsSlice';
 
 interface ProductFormValues {
-    id: number;
     name: string;
     description: string;
     price: number;
@@ -32,11 +31,12 @@ export const ProductForm = () => {
       try {
         setLoading(true);
         
-        const productData = data.discountPrice 
-          ? data 
-          : { ...data, discountPrice: undefined };
-  
-        const res = await fetch('/api/products', {
+        const productData = {
+          ...data,
+          discount_price: data.discountPrice || null, 
+        };
+
+        const res = await fetch('/api/products', { 
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
