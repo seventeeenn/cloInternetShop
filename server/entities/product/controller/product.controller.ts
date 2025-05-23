@@ -1,29 +1,21 @@
 import { Request, Response } from 'express';
-import { Product } from '../model/Product';
+import { productService } from '../service/product.service';
 
-export const productController = {
-  addProduct: async (req: Request, res: Response) => {
+export const storyController = {
+  createStory: async (req: Request, res: Response) => {
+    const { id, name, description, price, discount_price, quantity, image } = req.body;
+
     try {
-      const { name, description, price, discountPrice, quantity, image } = req.body;
-
-      const product = await Product.create({
-        name,
-        description,
-        price,
-        discount_price: discountPrice || null, // optional field
-        quantity,
-        image,
-      });
+      const newStory = await productService.createProduct({ id, name, description, price, discount_price, quantity, image });
 
       res.status(201).json({
-        message: 'Product added successfully',
-        product,
+        id: newStory.id,
+        message: 'Story created successfully!',
       });
-    } catch (error) {
+    } catch (error: any) {
       res.status(500).json({
-        message: 'Failed to add product',
-        error: error.message,
+        message: error.message || 'Story creation failed',
       });
     }
-  },
+  }
 };

@@ -1,9 +1,12 @@
 import { Router } from 'express';
-import { productController } from '../controller/product.controller';
 import { asyncHandler } from '../../../shared/lib/asyncHandler';
+import { storyController } from '../controller/product.controller';
 
-const productRouter = Router();
+const storiesRouter = Router();
+storiesRouter.post('/', asyncHandler(storyController.createStory));
 
-productRouter.post('/products', asyncHandler(productController.addProduct));
+storiesRouter.get('/', (req, res) => {
+  res.status(405).json({ message: 'Use POST method to create stories' });
+});
 
-export default productRouter;
+export default storiesRouter;
