@@ -1,15 +1,18 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@shared/ui/Input';
+import { Input } from '@shared/ui/input';
 import { Button } from '@shared/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import './index.css'
+import { useDispatch } from 'react-redux';
+import { setUser } from '@shared/store/userSlice';
 
 //схема валидации
 const loginSchema = z.object({
   email: z.string().email('Invalid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: z.string().min(5, 'Password must be at least 6 characters'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -25,6 +28,7 @@ export const LoginForm = () => {
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
@@ -35,7 +39,15 @@ export const LoginForm = () => {
         body: JSON.stringify(data),
       });
 
-      const resData = await res.json();
+      // const resData = await res.json();
+      let resData;
+      try {
+        resData = await res.json();
+      } catch (e) {
+        console.error('Invalid JSON response');
+        resData = { message: 'Server returned invalid response' };
+      }
+
 
       if (!res.ok) {
         alert(resData.message || 'Login failed');
@@ -44,6 +56,8 @@ export const LoginForm = () => {
 
       // Храни токен при необходимости (resData.token)
       alert(resData.message);
+      dispatch(setUser({ name: resData.name, email: resData.email }));       
+      
       navigate('/');
     } catch (err) {
       console.error('Login failed:', err);
@@ -54,11 +68,13 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="CLASS__NAME">
+    <div className='cont'>
+    <form onSubmit={handleSubmit(onSubmit)} className="login-form card">
       <div>
-        <label>Email</label>
+        <label className='Email'>Email</label>
         <Input
           type="email"
+          autoComplete='email'
           {...register('email')}
           className="CLASS__NAME"
         />
@@ -66,9 +82,10 @@ export const LoginForm = () => {
       </div>
 
       <div>
-        <label>Password</label>
+        <label className='Password'>Password</label>
         <Input
           type="password"
+          autoComplete='current-password'
           {...register('password')}
           className="CLASS__NAME"
         />
@@ -79,5 +96,6 @@ export const LoginForm = () => {
         {loading ? 'Logging in...' : 'Login'}
       </Button>
     </form>
+    </div>
   );
 };

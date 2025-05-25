@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { loginController } from '../controller/login.controller';
-// import { loginController } from '../controller';
+import { asyncHandler } from '../../../shared/lib/asyncHandler';
 
-const router = Router();
+const LoginRouter = Router();
 
 // Маршрут для логина: POST /api/login
-router.post('/login', loginController);
+LoginRouter.post('/', asyncHandler(loginController));
 
-export { router as authRouter };
+export default LoginRouter;

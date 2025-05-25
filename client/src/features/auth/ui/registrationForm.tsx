@@ -1,13 +1,12 @@
 import { useForm } from 'react-hook-form';
-import { Input } from '@shared/ui/Input';
+import { Input } from '@shared/ui/input';
 import { Button } from '@shared/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setUser } from '@shared/store/userSlice';
+import './index.css';
 
 interface SignupFormValues {
-  username: string;
+  username: string; 
   email: string;
   password: string;
   confirmPassword: string;
@@ -21,11 +20,9 @@ export const RegistrationForm = () => {
   } = useForm<SignupFormValues>();
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: SignupFormValues) => {
-    //Проверка на совпадение паролей
     if (data.password !== data.confirmPassword) {
       alert('Passwords do not match');
       return;
@@ -35,9 +32,7 @@ export const RegistrationForm = () => {
       setLoading(true);
       const res = await fetch('/api/registration', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
@@ -50,7 +45,6 @@ export const RegistrationForm = () => {
       const resData = await res.json();
       alert(resData.message);
       navigate('/');
-      dispatch(setUser({ name: resData.name }));
     } catch (err) {
       console.error('Registration failed', err);
       alert('Something went wrong!');
@@ -60,47 +54,55 @@ export const RegistrationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="CLASS__NAME">
-      <div>
-        <label>Username</label>
+    <form onSubmit={handleSubmit(onSubmit)} className="registration-form">
+      <h2 className="registration-form__title">Create an Account</h2>
+
+      <div className="registration-form__field">
+        <label className="registration-form__label">Username</label>
         <Input
           {...register('username', { required: 'Username is required' })}
-          className="CLASS__NAME"
+          autoComplete="username"
+          className="registration-form__input"
         />
-        {errors.username && <p>{errors.username.message}</p>}
+        {errors.username && <p className="registration-form__error">{errors.username.message}</p>}
       </div>
 
-      <div>
-        <label>Email</label>
+      <div className="registration-form__field">
+        <label className="registration-form__label">Email</label>
         <Input
           type="email"
           {...register('email', { required: 'Email is required' })}
-          className="CLASS__NAME"
+          autoComplete="email"
+          className="registration-form__input"
         />
-        {errors.email && <p>{errors.email.message}</p>}
+        {errors.email && <p className="registration-form__error">{errors.email.message}</p>}
       </div>
 
-      <div>
-        <label>Password</label>
+      <div className="registration-form__field">
+        <label className="registration-form__label">Password</label>
         <Input
           type="password"
           {...register('password', { required: 'Password is required' })}
-          className="CLASS__NAME"
+          autoComplete="new-password"
+          className="registration-form__input"
         />
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && <p className="registration-form__error">{errors.password.message}</p>}
       </div>
 
-      <div>
-        <label>Confirm Password</label>
+      <div className="registration-form__field">
+        <label className="registration-form__label">Confirm Password</label>
         <Input
           type="password"
           {...register('confirmPassword', { required: 'Confirm Password is required' })}
-          className="CLASS__NAME"
+          autoComplete="new-password"
+          className="registration-form__input"
         />
-        {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+        {errors.confirmPassword && (
+          <p className="registration-form__error">{errors.confirmPassword.message}</p>
+        )}
       </div>
 
-      <Button type="submit" className="CLASS__NAME" disabled={loading}>
+      <Button type="submit" className="registration-form__submit" disabled={loading}>
         {loading ? 'Registering...' : 'Register'}
       </Button>
     </form>

@@ -1,36 +1,32 @@
-import { Request, Response } from 'express';
-import { login as loginService } from '../service/login.service';  // Импортируем функцию логина из сервиса
+import { Response } from 'express';
+import { login as loginService } from '../service/login.service';
+import { TypedRequestBody } from '../../../shared/types/express';
 
-// Определяем интерфейсы для типизации тела запроса
+// Тип запроса для логина
 interface LoginBody {
   email: string;
   password: string;
 }
 
-// Расширяем Request из Express, чтобы body имел тип LoginBody
-interface TypedRequestBody<T> extends Request {
-  body: T;
-}
-
 /**
  * Контроллер для обработки POST /api/login
  */
-export async function loginController(req: TypedRequestBody<LoginBody>, res: Response): Promise<void> {
+export async function loginController(
+  req: TypedRequestBody<LoginBody>,
+  res: Response
+): Promise<void> {
   try {
     const { email, password } = req.body;
-    // Вызываем сервис для проверки учетных данных и получения токена
+
     const token = await loginService(email, password);
 
     if (!token) {
-      // Неверный email или пароль — отправляем 401 Unauthorized
-      res.status(401).json({ message: 'Invalid email or password' });
-      return;
-    }
+        res.status(401).json({ message: 'Invalid email or password' });
+    }   
 
-    // Успешный вход — возвращаем JWT-токен клиенту
     res.json({
       message: 'Login successful',
-      token: token
+      token: token,
     });
   } catch (error) {
     console.error('Login error:', error);
