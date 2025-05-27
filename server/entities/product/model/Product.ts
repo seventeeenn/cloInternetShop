@@ -40,7 +40,7 @@ export const Product = sequelize.define<Model<ProductData, ProductCreationAttrib
     allowNull: false,
   },
   image: {
-    type: DataTypes.STRING(200),
+    type: DataTypes.STRING(1000),
     allowNull: false,
   },
 }, {

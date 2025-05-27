@@ -1,17 +1,17 @@
 import { ThemeToggle } from '@shared/ui/ThemeToggle';
 import { Link } from 'react-router-dom';
-import './header.css';
+import './Header.css';
 
 export const Header = () => {
   return (
     <header className="header">
-      <div className="header__wrapper">
+      <div className="header__container">
         
         <Link to="/" className="header__logo">
-          MyApp
+          CloInternetShop
         </Link>
 
-        <nav className="CLASS__NAME">
+        <nav className="header__nav">
           <Link to="/login" className="header__link">
             Login
           </Link>
@@ -23,7 +23,9 @@ export const Header = () => {
           </Link>
         </nav>
 
-        <ThemeToggle />
+        <div className="header__toggle">
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

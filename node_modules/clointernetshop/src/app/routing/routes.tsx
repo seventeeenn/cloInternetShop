@@ -5,6 +5,8 @@ import { LoginPage } from "@pages/login/ui/LoginPage";
 import { RegistrationForm } from "@features/auth/ui/registrationForm";
 import { NotFoundPage } from "@pages/notFound/notFoundPage";
 import { ProductForm } from "@features/auth/ui/productsForm";
+import { ProductDetailPage } from "@pages/product/ProductDetailPage/ProductDetailPage";
+import { ProductsPage } from "@pages/product/ProductsPage";
 
 export const router = createBrowserRouter([
     {
@@ -25,7 +27,11 @@ export const router = createBrowserRouter([
         },
         {
             path: 'products',
-            element: <ProductForm />,
+            element: <ProductsPage />,
+        },
+        {
+          path: 'products/:id',
+          element: <ProductDetailPage />,
         },
         {
             path: '*',
